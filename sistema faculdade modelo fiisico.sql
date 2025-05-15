@@ -26,7 +26,7 @@ create table tbl_cursos_materias(
 create table tbl_materias(
 	id int primary key auto_increment not null,
     nome_materia varchar(45) not null,
-    cargar_horaria int not null,
+    carga_horaria int not null,
 	id_notas int,
     
     foreign key (id_notas) 
