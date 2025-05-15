@@ -1,7 +1,11 @@
+#criação do banco de dados
 create database db_sistema_faculdade;
+
+#ativando o banco de dados
 use db_sistema_faculdade;
 
 
+#criação da tabela  Cursos 
 create table tbl_cursos(
 	id int primary key auto_increment not null,
 	nome_curso varchar(45) not null,
@@ -14,13 +18,19 @@ create table tbl_cursos(
 #relacção da tabela cursos com a tabela materias
 create table tbl_cursos_materias(
 	id int primary key auto_increment not null,
-    id_materias int,
+    id_materias int,	
     id_cursos int,
     
-    foreign key (id_materias) references tbl_materias (id),
-    foreign key (id_cursos) references tbl_cursos (id),
+    constraint fk_materias_cursos_materias
+    foreign key (id_materias) 
+    references tbl_materias (id),
+    
+    constraint fk_cursos_cursos_materias
+    foreign key (id_cursos) 
+    references tbl_cursos (id),
     unique index (id)
 );
+
 
 #criação da tabela Materias com a FK da Tabela notas
 create table tbl_materias(
@@ -29,6 +39,7 @@ create table tbl_materias(
     carga_horaria int not null,
 	id_notas int,
     
+    constraint fk_notas_materias
     foreign key (id_notas) 
     references tbl_notas(id),
     unique index (id)
@@ -42,6 +53,7 @@ create table tbl_notas(
     unique index (id)
 );
 
+
 #criação da tabela professor com a FK da tabela Materias 
 create table tbl_professor(
 	id int primary key auto_increment not null,
@@ -50,12 +62,12 @@ create table tbl_professor(
     data_contratacao date not null,
     id_materias int,
     
+    constraint fk_materias_professor
     foreign key (id_materias)  
     references tbl_materias (id),
+    
     unique index (id)
 );
-
-
 
 #criação da tabela turma
 create table tbl_turma(
@@ -70,10 +82,16 @@ create table tbl_materias_turna(
 	id int auto_increment primary key not null,
 	id_turma int,
 	id_materias int,
-
-	foreign key (id_turma) references tbl_turma(id),
-	foreign key (id_materias) references tbl_materias (id),
-	unique index (id)
+    
+	constraint fk_turma_materias_turma
+	foreign key (id_turma) 
+    references tbl_turma(id),
+	
+    constraint fk_materias_materias_turma
+    foreign key (id_materias) 
+    references tbl_materias (id),
+	
+    unique index (id)
 );
 
 #criação da tablea endereço com a FK da tabela Aluno
@@ -87,8 +105,10 @@ create table tbl_endereco(
     estado varchar(45) not null,
     id_aluno int,
     
+    constraint fk_aluno_endereco
     foreign key (id_aluno)
     references tbl_aluno (id),
+    
     unique index (id)
 );
 
@@ -109,14 +129,21 @@ create table tbl_aluno(
 
 #relação da tabela aluno com a tabela turma
 create table tbl_turma_aluno(
-id int primary key auto_increment not null,
-id_aluno int,
-id_turma int,
+	id int primary key auto_increment not null,
+	id_aluno int,
+	id_turma int,
 
-foreign key (id_aluno) references tbl_aluno(id),
-foreign key (id_turma) references tbl_turma(id),
-unique index (id)
+	constraint fk_aluno_turma_aluno
+	foreign key (id_aluno) 
+	references tbl_aluno(id),
+	
+    constraint fk_turma_turma_aluno
+    foreign key (id_turma) 
+    references tbl_turma(id),
+	
+    unique index (id)
 );
 
+show tables;
 
 
